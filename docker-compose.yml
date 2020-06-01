@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  pricecalculator:
+    image: ${DOCKER_REGISTRY-}pricecalculator
+    build:
+      context: .
+      dockerfile: PriceCalculator/Dockerfile
