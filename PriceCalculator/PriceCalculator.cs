@@ -1,18 +1,18 @@
 ﻿
 namespace PriceCalculator
 {
-    public class PriceCalcuatlor
+    public class PriceCalculator
     {
         private readonly IPrinter _printer;
         private readonly ISpecialOffers _specialOffers;
 
-        public PriceCalcuatlor(IPrinter printer, ISpecialOffers specialOffers)
+        public PriceCalculator(IPrinter printer, ISpecialOffers specialOffers)
         {
             _printer = printer;
             _specialOffers = specialOffers;
         }
 
-        public void Calcualte(IBasket basket)
+        public void Calculate(IBasket basket)
         {
             var subtotalInPence = 0;
 
@@ -27,9 +27,9 @@ namespace PriceCalculator
             if (_specialOffers.CanApply(basket, out var appliedSpecialOffers))
             {
                 var totalSavingInPence = 0d;
-                foreach (var appliedoffers in appliedSpecialOffers) {
-                    _printer.PrintLine($"{appliedoffers.Name}: {appliedoffers.SavingInPence}p");
-                    totalSavingInPence += appliedoffers.SavingInPence;
+                foreach (var appliedOffers in appliedSpecialOffers) {
+                    _printer.PrintLine($"{appliedOffers.Name}: {appliedOffers.SavingInPence}p");
+                    totalSavingInPence += appliedOffers.SavingInPence;
                 }
                  var totalInPounds = (subtotalInPence - totalSavingInPence) / 100d;
 

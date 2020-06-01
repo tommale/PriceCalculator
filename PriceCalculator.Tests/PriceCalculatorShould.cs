@@ -15,7 +15,7 @@ namespace PriceCalculator.Tests
         {
             var printer = Substitute.For<IPrinter>();
             var basket = Substitute.For<IBasket>();
-            var specialOffers = new SpeicalOffers();
+            var specialOffers = new SpecialOffers();
 
             basket.goods.Returns(x => new List<GoodAndQuantity>() {
                 new GoodAndQuantity {Quantity = 2, Good = new Apples()  },
@@ -23,9 +23,9 @@ namespace PriceCalculator.Tests
 
           
 
-            var priceCalcuatlor = new PriceCalcuatlor(printer, specialOffers);
+            var priceCalculator = new PriceCalculator(printer, specialOffers);
 
-            priceCalcuatlor.Calcualte(basket);
+            priceCalculator.Calculate(basket);
 
             printer.Received().PrintLine(Arg.Is<string>(x => x.StartsWith("Subtotal:")));
             printer.Received().PrintLine(Arg.Is<string>(x => x.StartsWith("(No offers available)")));
@@ -34,16 +34,16 @@ namespace PriceCalculator.Tests
         }
 
         [Test]
-        public void CalculateWithAppleOffers()
+        public void CalculateWithApplesOffers()
         {
             var printer = Substitute.For<IPrinter>();
             var basketBuilder = new BasketBuilder();
             basketBuilder.Parse(new string[] { "Apples", "Beans", "Bread", "Milk" }, out var basket);
-            var specialOffers = new SpeicalOffers();
+            var specialOffers = new SpecialOffers();
 
-            var priceCalcuatlor = new PriceCalcuatlor(printer, specialOffers);
+            var priceCalculator = new PriceCalculator(printer, specialOffers);
 
-            priceCalcuatlor.Calcualte(basket);
+            priceCalculator.Calculate(basket);
 
             printer.Received().PrintLine(Arg.Is<string>(x => x.StartsWith("Subtotal:")));
             printer.Received().PrintLine(Arg.Is<string>(x => x.StartsWith("Apples 10% off:")));
@@ -52,16 +52,16 @@ namespace PriceCalculator.Tests
         }
 
         [Test]
-        public void CalculateWithLotsOfAppleOffers()
+        public void CalculateWithLotsOfApplesOffers()
         {
             var printer = Substitute.For<IPrinter>();
             var basketBuilder = new BasketBuilder();
             basketBuilder.Parse(new string[] { "Apples", "Apples", "Apples", "Apples" }, out var basket);
-            var specialOffers = new SpeicalOffers();
+            var specialOffers = new SpecialOffers();
 
-            var priceCalcuatlor = new PriceCalcuatlor(printer, specialOffers);
+            var priceCalculator = new PriceCalculator(printer, specialOffers);
 
-            priceCalcuatlor.Calcualte(basket);
+            priceCalculator.Calculate(basket);
 
             printer.Received().PrintLine(Arg.Is<string>(x => x.StartsWith("Subtotal: ")));
             printer.Received().PrintLine(Arg.Is<string>(x => x.StartsWith("Apples 10% off:: 40p")));
@@ -75,11 +75,11 @@ namespace PriceCalculator.Tests
             var printer = Substitute.For<IPrinter>();
             var basketBuilder = new BasketBuilder();
             basketBuilder.Parse(new string[] { "Beans", "Beans", "Bread" }, out var basket);
-            var specialOffers = new SpeicalOffers();
+            var specialOffers = new SpecialOffers();
 
-            var priceCalcuatlor = new PriceCalcuatlor(printer, specialOffers);
+            var priceCalculator = new PriceCalculator(printer, specialOffers);
 
-            priceCalcuatlor.Calcualte(basket);
+            priceCalculator.Calculate(basket);
 
             printer.Received().PrintLine(Arg.Is<string>(x => x.StartsWith("Subtotal")));
             printer.Received().PrintLine(Arg.Is<string>(x => x.StartsWith("Buy 2 cans of ")));
